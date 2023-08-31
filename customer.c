@@ -3,7 +3,7 @@
 #include <string.h>
 
 void saveCustomersToFile(struct Customer customers[], int numCustomers) {
-    FILE *file = fopen("customer.dat", "wb");
+    FILE *file = fopen("customer.dat", "ab");
     if (file == NULL) {
         printf("无法打开文件\n");
         return;
@@ -30,6 +30,8 @@ void registerCustomer(struct Customer customers[], int *numCustomers) {
     printf("请输入以下信息进行注册：\n");
     printf("用户ID: ");
     scanf("%s", newCustomer.userID);
+    printf("密码：");
+    scanf("%s",newCustomer.password);
     // ... 依次输入其他信息
     customers[*numCustomers] = newCustomer;
     (*numCustomers)++;
@@ -54,3 +56,5 @@ void loginCustomer(struct Customer customers[], int numCustomers) {
 
     printf("登陆失败，请检查用户ID和密码。\n");
 }
+
+
