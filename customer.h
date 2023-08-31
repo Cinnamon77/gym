@@ -16,6 +16,6 @@ struct Customer {
 void saveCustomersToFile(struct Customer customers[], int numCustomers);
 void readCustomersFromFile(struct Customer customers[], int *numCustomers);
 void registerCustomer(struct Customer customers[], int *numCustomers);
-void loginCustomer(struct Customer customers[], int numCustomers);
+void loginCustomer(struct Customer customers[], int numCustomers,int *flag);
 
 #endif // CUSTOMER_H
