@@ -1,7 +1,16 @@
 #include "customer.h"
 #include "menu.h"
 #include <stdio.h>
+#include <string.h>
 
+void init(struct Customer customers[],int *numCustomers,FILE *file) {
+    char userID[20],password[20];
+    while (~fscanf(file,"%s %s",userID,password)) {
+        ++(*numCustomers);
+        strcpy(customers[*numCustomers].userID ,userID);
+        strcpy(customers[*numCustomers].password ,password);
+    }
+}
 int main()
 {
 
@@ -15,8 +24,10 @@ int main()
         printf("您好顾客\n");
         printf("请先登陆：");
         struct Customer customers[100]; // 假设最多有100个顾客
+        FILE *file = fopen("customer.dat", "r");
         int numCustomers = 0;
-        readCustomersFromFile(customers, &numCustomers);
+        init(customers,&numCustomers,file);
+        fclose(file);
 
         int flag = 0; // 标记是否登陆成功
         while (1)
@@ -34,7 +45,7 @@ int main()
             {
             case 1:
                 registerCustomer(customers, &numCustomers);
-                saveCustomersToFile(customers, numCustomers);
+                // saveCustomersToFile(customers, numCustomers);
                 printf("已保存顾客数据。\n");
                 break;
             case 2:

@@ -1,6 +1,6 @@
 #ifndef VENUE_H
 #define VENUE_H
-
+#include <stdbool.h>
 struct venue
 {
     char venueID[11];
