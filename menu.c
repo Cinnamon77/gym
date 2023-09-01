@@ -5,7 +5,7 @@ void showMainMenu() {
     printf("欢迎使用综合体育场馆管理系统\n");
     printf("1. 顾客登陆\n");
     printf("2. 管理员登陆\n");
-    printf("0. 退出\n");
+    printf("3. 退出\n");
     printf("请输入选项：");
 }
 
@@ -28,4 +28,17 @@ void showAdminMenu() {
     printf("4. 个人信息管理\n");
     printf("0. 返回上级菜单\n");
     printf("请输入选项：");
+}
+
+
+
+void showVenueMenu() {
+    printf("\n体育馆查询菜单:\n");
+    printf("1. 根据场地名称查询\n");
+    printf("2. 根据场馆名称查询\n");
+    printf("3. 根据场地类别和所属区域查询\n");
+    printf("4. 根据是否有空余场地过滤查询结果\n");
+    printf("5. 根据租金排序所有场地\n");
+    printf("6. 根据预定量排序所有场地\n");
+    printf("0. 退出\n");
 }
