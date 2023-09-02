@@ -1,6 +1,7 @@
 #include "customer.h"
 #include "menu.h"
 #include "venue.h"
+#include "order.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -17,9 +18,17 @@ void init(struct Customer customers[],int *numCustomers,FILE *file) {
 
 int main()
 {
+    int orderNum=0;
+    struct Order orders[100];
+    //初始化订单
+
+
+
+
     struct Venue venues[20];
-    //初始化运动场地
      int venueNum=6;
+    //初始化运动场地
+    
      initVenue(&venues[0], "V001", "Region A", "Type 1", "Sport 1", "Reduction 1", 18, 50.0, true);
      initVenue(&venues[1], "V002", "Region B", "Type 1", "Sport 1", "Reduction 1", 19, 50.0, true);
      initVenue(&venues[2], "V003", "Region C", "Type 2", "Sport 2", "Reduction 2", 20, 50.0, true);
@@ -70,9 +79,15 @@ int main()
                 
                 if (flag == 1)
                 {
+                    printf("请再次输入您的用户名\n");
+                    char currUserID[20]; //用户标记在这
+                    scanf("%s",currUserID);
+                    //对该用户进行操作
                     while(1)
                     {
                     showCustomerMenu();//显示顾客菜单
+                    
+
                     int choice_for_customer2;
                     scanf("%d", &choice_for_customer2);
                     switch (choice_for_customer2)
@@ -97,8 +112,13 @@ int main()
                                     printf("该场地已预定\n");
                                 }
                                 else{
-                                venues[i].isOk=false;
-                                printf("预定成功\n");
+                                    venues[i].isOk=false;
+                                    printf("预定成功\n");
+                                    //创建订单
+                                    sprintf(orders[orderNum].orderID, "%04d", orderNum);
+                                    initOrder(&orders[orderNum],orders[orderNum].orderID, "2023.6.5",50.0, currUserID, reserveVenueID);//时间和价格未加入
+                                    printOrder(&orders[orderNum]);
+                                    orderNum++;
                                 }
                                 flagVenue=1;
                             }
@@ -107,15 +127,121 @@ int main()
                         {
                             printf("该场地不存在\n");
                         }
-
-                        
+  
 
                         break;
+                    case 3:
+                        printf("个人信息中心\n");
+                        
+                        
+                        for(int i=0;i<numCustomers;i++)
+                        {
+                            if(strcmp(customers[i].userID,currUserID)==0)
+                            {
+                                printf("您的个人信息为：\n");
+                                printf("用户名：%s",customers[i].userID);
+                                printf("密码：%s",customers[i].password);
+                                printf("是否修改? 1.修改 2.不修改\n");
+                                int choice_for_personalInformation;
+                                scanf("%d",&choice_for_personalInformation);
+                                if(choice_for_personalInformation==1)
+                                {
+                                    
+                                    int choice_for_fix;
+                                    while(1)
+                                    {
+                                    printf("请输入您想修改的内容\n");
+                                    printf("1.用户名 \n2.密码 \n");
+                                    scanf("%d",&choice_for_fix);
+                                    switch (choice_for_fix)
+                                    {
+                                    case 1:
+                                        printf("请输入新用户名\n");
+                                        char new_userID[20];
+                                        scanf("%s",new_userID);
+                                        strcpy(customers[i].userID,new_userID);
+                                        strcpy(currUserID,new_userID);
+                                        
+                                    
+                                        break;
+                                    
+                                    case 2:
+                                        printf("请输入新密码\n");
+                                        char new_password[20];
+                                        scanf("%s",new_password);
+                                        strcpy(customers[i].password,new_password);
+                                       
+
+                                        break;
+                                    
+                                    default:
+                                        break;
+                                    }
+                                    if(choice_for_fix==3)
+                                    {
+                                        break;
+                                    }
+                                    
+                                    }
+                                }
+                                
+
+
+                            }
+                            
+
+                        }
+                        break;
+
+
+                    case 4:
+                        printf("取消预定\n");
+                        printf("您的现有订单为：");
+                        int flag_order=0;//标记是否有订单
+                        for(int i=0;i<orderNum;i++)
+                        {
+                            if(strcmp(orders[i].makerID,currUserID)==0)
+                            {
+                                printOrder(&orders[i]);
+                                flag_order++;
+
+                            }
+
+                        }
+                        if(flag_order==0)
+                        {
+                            printf("您没有创建订单");
+                        }
+
+                        printf("请输入您想取消的订单编号：");
+                        char currOrderID[20];
+                        scanf("%s",currOrderID);
+                        for(int i=0;i<orderNum;i++)
+                        {
+                            if(strcmp(orders[i].orderID,currOrderID)==0)
+                            {
+                                for(int j=0;j<venueNum;j++)
+                                {
+                                    if(strcmp(venues[j].venueID,orders[i].venueID_od)==0)
+                                    {
+                                        venues[j].isOk==true;
+                                        printf("取消成功");
+                                    }
+                                }
+                            }
+                        }
+                    case 5:
+                        break;
+                    case 6:
+                        break;
+                    default:
+                         break;
+
                     }
                     }
                 }
 
-                break;
+                break;//这个顾客功能结尾
             case 3:
                 
 
