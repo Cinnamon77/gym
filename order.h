@@ -18,4 +18,6 @@ void initOrder(struct Order *order, const char *orderID, const char *time, float
 
 void printOrder(const struct Order *order);
 
+void clearOrder(struct Order *order);
+
 #endif // ORDER_H

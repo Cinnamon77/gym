@@ -2,6 +2,7 @@
 #include "menu.h"
 #include "venue.h"
 #include "order.h"
+#include "admin.h"
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
@@ -21,6 +22,23 @@ int main()
     int orderNum=0;
     struct Order orders[100];
     //初始化订单
+
+    int adminNum=6;
+    struct Admin admins[20];
+    initAdmin(&admins[0],"Admin001", "Type 1","name1", "f", "100@qq.com","123456","19955217075","V001");
+    initAdmin(&admins[1],"Admin002", "Type 1","name2", "m", "101@qq.com","123456","19955217075","V002");
+    initAdmin(&admins[2],"Admin003", "Type 2","name3", "f", "102@qq.com","123456","19955217075","V003");
+    initAdmin(&admins[3],"Admin004", "Type 2","name4", "m", "103@qq.com","123456","19955217075","V004");
+    initAdmin(&admins[4],"Admin005", "Type 3","name5", "f", "104@qq.com","123456","19955217075","V005");
+    initAdmin(&admins[5],"Admin006", "Type 3","name6", "m", "105@qq.com","123456","19955217075","V006");
+
+
+
+
+
+   
+    //初始化管理员 venueName对应体育馆venueType 一个管理员管理一个场地
+
 
 
 
@@ -75,13 +93,13 @@ int main()
                 printf("已保存顾客数据。\n");
                 break;
             case 2:
-                loginCustomer(customers, numCustomers, &flag);
+                char currUserID[20]; //用户标记在这
+                loginCustomer(customers, numCustomers, &flag,currUserID);
                 
-                if (flag == 1)
+                if (flag == 1)  //可以用int型返回值优化 
                 {
-                    printf("请再次输入您的用户名\n");
-                    char currUserID[20]; //用户标记在这
-                    scanf("%s",currUserID);
+                    // printf("请再次输入您的用户名\n");
+                    // scanf("%s",currUserID);
                     //对该用户进行操作
                     while(1)
                     {
@@ -196,41 +214,60 @@ int main()
 
                     case 4:
                         printf("取消预定\n");
-                        printf("您的现有订单为：");
-                        int flag_order=0;//标记是否有订单
-                        for(int i=0;i<orderNum;i++)
-                        {
-                            if(strcmp(orders[i].makerID,currUserID)==0)
-                            {
-                                printOrder(&orders[i]);
-                                flag_order++;
-
-                            }
-
-                        }
-                        if(flag_order==0)
-                        {
-                            printf("您没有创建订单");
-                        }
-
                         printf("请输入您想取消的订单编号：");
                         char currOrderID[20];
                         scanf("%s",currOrderID);
                         for(int i=0;i<orderNum;i++)
                         {
-                            if(strcmp(orders[i].orderID,currOrderID)==0)
+                            if(strcmp(orders[i].orderID,currOrderID)==0)//是这个顾客的订单
                             {
                                 for(int j=0;j<venueNum;j++)
                                 {
-                                    if(strcmp(venues[j].venueID,orders[i].venueID_od)==0)
+                                    if(strcmp(venues[j].venueID,orders[i].venueID_od)==0)//是对应的体育场馆
                                     {
-                                        venues[j].isOk==true;
-                                        printf("取消成功");
+                                        venues[j].isOk==true;//把对应场馆清空  有问题先写管理员去了
+                                        clearOrder(&orders[i]);
+
+                                        printf("取消成功\n");
                                     }
                                 }
                             }
                         }
+                        break;
                     case 5:
+                        printf("您的现有订单为：\n");
+                        int flag_order=0;//标记是否有订单
+                         for(int i=0;i<orderNum;i++)
+                        {
+                            if(strcmp(orders[i].makerID,currUserID)==0)
+                            {
+                                
+                                flag_order++;
+
+                            }
+
+                        }
+
+                         if(flag_order==0)
+                        {
+                            printf("您没有创建订单\n\n");
+                        }
+                        else
+                        {
+                             for(int i=0;i<orderNum;i++)
+                                {
+                                 if(strcmp(orders[i].makerID,currUserID)==0)
+                                    {
+                                        printOrder(&orders[i]);
+                                        
+
+                                    }
+                                    printf("\n");
+
+                        }
+                        }
+
+
                         break;
                     case 6:
                         break;
@@ -261,6 +298,9 @@ int main()
 
     case 2:
         printf("您好管理员");
+        printf("请先登陆");
+
+
         break;
 
     case 3:

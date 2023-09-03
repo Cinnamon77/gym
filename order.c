@@ -22,3 +22,12 @@ void printOrder(const struct Order *order) {
     printf("创建者ID: %s\n", order->makerID);
     printf("场馆ID: %s\n", order->venueID_od);
 }
+
+//清空一个订单
+void clearOrder(struct Order *order) {
+    strcpy(order->orderID, "已删除");
+    strcpy(order->time, "已删除");
+    order->money = 0.0;
+    strcpy(order->makerID, "已删除");
+    strcpy(order->venueID_od, "已删除");
+}

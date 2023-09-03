@@ -62,7 +62,7 @@ void registerCustomer(struct Customer customers[], int *numCustomers) {
     printf("注册成功！\n");
 }
 
-void loginCustomer(struct Customer customers[], int numCustomers,int *flag) {
+void loginCustomer(struct Customer customers[], int numCustomers,int *flag,char *current_customer) {
     char userID[11];
     char password[20];
     printf("请输入用户ID: ");
@@ -72,6 +72,7 @@ void loginCustomer(struct Customer customers[], int numCustomers,int *flag) {
 
     for (int i = 1; i <= numCustomers; i++) {
         if (strcmp(customers[i].userID, userID) == 0 && strcmp(customers[i].password, password) == 0) {
+            strcpy(current_customer,customers[i].userID);
             *flag=1;
             printf("登陆成功！\n");
             
